@@ -1,9 +1,9 @@
+import { typeOrmAsyncConfig } from './config/ormconfig';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
 import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [UsersModule, TypeOrmModule.forFeature([User])]
+    imports: [UsersModule, TypeOrmModule.forRootAsync(typeOrmAsyncConfig)]
 })
 export class AppModule {}
