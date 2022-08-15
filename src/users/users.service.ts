@@ -1,33 +1,43 @@
-import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
-export class UsersService {
-  constructor(@InjectRepository(User) 
-  private readonly usersRepository: Repository<User>,
-  ) {}
+export class UsersService implements OnModuleInit {
+   
+    constructor(@InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    private dataSource:DataSource) {}
+    queryRunner = this.dataSource.createQueryRunner()
 
-  async create(createUserDto: CreateUserDto) {
-    return this.usersRepository.create(createUserDto)
-  }
+    async onModuleInit() {
+        try {
+        await this.queryRunner.connect();
+        } catch (error) {
+        await this.queryRunner.connect();
+        }
+    }
 
-  async findAll(): Promise<User[]>{
-    return this.usersRepository.find()
-  }
+    async create(createUserDto: CreateUserDto) {
+        return this.userRepository.save(createUserDto)
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+    findAll(){
+        return this.userRepository.find()
+    }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    findOne(id: number) {
+        return `This action returns a #${id} user`;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+    update(id: number, updateUserDto: UpdateUserDto) {
+        return `This action updates a #${id} user`;
+    }
+
+    remove(id: number) {
+        return `This action removes a #${id} user`;
+    }
 }
