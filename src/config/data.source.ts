@@ -2,15 +2,16 @@ import { DataSource } from 'typeorm';
 
 export const myDataSource = new DataSource({
 
-    type: 'postgres',
+    type: 'mysql',
     host: 'localhost',
-    port: 5432,
-    username: 'postgres',
-    password: '123456789',
+    port: 3306,
+    username: 'root',
+    password: '123456',
     database: 'crud',
-    entities: [__dirname +'../src/**/**.entity{.ts,.js}'],
-    migrations: [__dirname +'../src/migrations/*.{ts,js}'],
+    entities: ['../src/**/**.entities{.ts,.js}'],
+    migrations: ['../src/migrations/*.{ts,js}'],
     synchronize: false,
     logging: 'all',
     migrationsRun: true,
+    migrationsTableName: 'users'
 });
