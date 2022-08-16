@@ -9,10 +9,10 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
             username: 'root',
             password: '123456',
             database: 'crud',
-            entities: ['../src/**/**.entities{.ts,.js}'],
-            migrations: ['../src/migrations/*.{ts,js}'],
+            entities: ['../src/**/**.entity{.ts,.js}'],
+            migrations: ['src/migrations/*.ts'],
             synchronize: false,
-            logging: false,
+            logging: 'all',
             migrationsRun: true,
             migrationsTableName : 'users'
         };
